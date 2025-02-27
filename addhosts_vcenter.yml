@@ -240,8 +240,8 @@
 #    enable: true
 #    vsan_auto_claim_storage: true
 
-#- pause:
-#    minutes: 2
+- pause:
+    minutes: 2
 
 - name: Enable vSAN
   enable_vsan:
