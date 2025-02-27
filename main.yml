@@ -149,6 +149,7 @@
   vars:
     bootstrap: true
     nfsetup: true
+    hasetup: true
     nfsiso: false
     localcy: false
 
