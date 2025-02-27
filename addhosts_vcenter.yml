@@ -244,8 +244,6 @@
     minutes: 2
 
 - name: Enable vSAN
-  vars:
-    ansible_python_interpreter: /usr/bin/python3 # or the correct path
   enable_vsan:
     vcenter: "{{ hostvars[groups['vc'][0]].NESTEDVMIP }}"
     user: 'administrator@{{ vc_fact_domain }}'
