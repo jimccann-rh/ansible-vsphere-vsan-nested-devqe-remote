@@ -255,11 +255,16 @@
 - pause:
     minutes: 1
 
-- name: Set up disk group for vSAN 
-#  local_action:
-    module: script
-    args: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}
+# - name: Set up disk group for vSAN
+#   local_action:
+#     module: script
+#     args: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}
+#   register: resultvsan
+
+- name: Set up disk group for vSAN
+  script:: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}   # E: line too long (127 > 80 characters)
   register: resultvsan
+
 
 - debug:
     msg: "{{ resultvsan.stdout_lines }}"
