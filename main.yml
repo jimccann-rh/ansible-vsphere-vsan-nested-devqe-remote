@@ -80,7 +80,7 @@
         dskover: "{{ cluster_info['clusters'][vc_cluster]['resource_summary']['storageCapacityMB'] - 1000000 }}"
 
     - debug:
-        msg: 
+        msg:
           - "{{ cluster_info['clusters'][vc_cluster]['resource_summary'] }}"
           - "{{ cpuover }}"
           - "{{ memover }}"
@@ -102,51 +102,45 @@
       when: cluster_info['clusters'][vc_cluster]['resource_summary']['storageUsedMB'] > (dskover | int)
 
     - block:
-       - name: Needed packages on system
-         include_tasks: packlocal.yml
-      tags:
-        - packlocal
-        # - never
+        - name: Needed packages on system
+          include_tasks: packlocal.yml
 
     - block:
->      - name: Needed packages on system # E: wrong indentation: expected 8 but found 7
-         include_tasks: packlocal.yml
-      tags:
-        - packlocal
-      delegate_to: localhost
-
-
-    - block:
-       - name: Include vars of vcenter_host-7.yml
-         ansible.builtin.include_vars:
-           file: vcenter_host-7.yml
+        - name: Include vars of vcenter_host-7.yml
+          ansible.builtin.include_vars:
+            file: vcenter_host-7.yml
 
       when: '"7" in version'
 
     - block:
-       - name: Include vars of vcenter_host-8.yml
-         ansible.builtin.include_vars:
-           file: vcenter_host-8.yml
+        - name: Include vars of vcenter_host-8.yml
+          ansible.builtin.include_vars:
+            file: vcenter_host-8.yml
 
       when: '"8" in version'
 
     - block:
-       - name: Deploy ova of ESXi
-         include_tasks: esxinested.yml
-         loop: "{{ groups['esxi'] | list }}"
-         loop_control:
-           loop_var: loop_bms
-           index_var: my_idx
+        - name: install local pacakages
+          include_tasks: packlocal.yml
+      delegate_to: localhost
+
+    - block:
+        - name: Deploy ova of ESXi
+          include_tasks: esxinested.yml
+          loop: "{{ groups['esxi'] | list }}"
+          loop_control:
+            loop_var: loop_bms
+            index_var: my_idx
       tags:
         - esxinested
 
     - block:
-       - name:  Deploy ova of VC
-         include_tasks: vcnested.yml
-         loop: "{{ groups['vc'] | list }}"
-         loop_control:
-           loop_var: loop_bms_vc
-           index_var: my_idx_vc
+        - name: Deploy ova of VC
+          include_tasks: vcnested.yml
+          loop: "{{ groups['vc'] | list }}"
+          loop_control:
+            loop_var: loop_bms_vc
+            index_var: my_idx_vc
       tags:
         - vcnested
 
