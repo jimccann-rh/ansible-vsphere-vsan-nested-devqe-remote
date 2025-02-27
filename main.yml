@@ -106,7 +106,7 @@
          include_tasks: packlocal.yml
       tags:
         - packlocal
-        - never
+        # - never
 
     - block:
        - name: Include vars of vcenter_host-7.yml
