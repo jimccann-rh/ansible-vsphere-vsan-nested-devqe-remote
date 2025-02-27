@@ -256,7 +256,7 @@
     minutes: 1
 
 - name: Set up disk group for vSAN 
-  local_action:
+#  local_action:
     module: script
     args: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}
   register: resultvsan
