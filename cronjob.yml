@@ -1,0 +1,55 @@
+---
+
+- name: how long to let environment run
+  set_fact:
+    #cron_time: "{{ lookup('pipe', 'date -d \"+10 minutes\" +\"%M %H %d %m %Y\"') }}"
+    cron_time: "{{ lookup('pipe', 'date -d \"+{{ howmanydays }} days\" +\"%M %H %d %m %Y\"') }}"
+    #cron_time: "{{ lookup('pipe', 'date -d \"+24 hours\" +\"%M %H %d %m %Y\"') }}"
+
+    converth: "{{ target_hosts | replace('\n', ', ') }}"
+    convertv: "{{ target_vcs | replace('\n', ', ') }}"
+
+- name: set cron job fact
+  set_fact:
+    cron_job: source /root/nested.source && cd /root/ansible-remotenesteddevqe/ ; ansible-playbook --connection=local -i hosts main.yml --extra-var cleanupcron=true --extra-var version={{ '"' }}{{ version }}{{ '"' }} --extra-var='{"target_hosts"{{ ":" }} {{"["}}{{ converth }}{{"]"}} }' --extra-var='{"target_vcs"{{ ":"}} {{"["}}{{ convertv }}{{"]"}} }' --extra-var removevsphere=true -t removevsphere >> /tmp/{{ target_vcs | replace('\n', ',') | replace('[', '') | replace(']', '') |  regex_replace("'", '') }}.log 2>&1
+
+
+- debug:
+    msg: 
+      - "{{ cron_time }}"
+      - "minute: {{ cron_time.split()[0] }}"
+      - "hour: {{ cron_time.split()[1] }}"
+      - "day: {{ cron_time.split()[2] }}"
+      - "month: {{ cron_time.split()[3] }}"
+      #- "{{ ansible_user }}"
+      - "{{ target_vcs }}"
+      #- "{{ target_vcs[0] }}"
+      #- "{{ cron_job }}"
+      #- "{{ target_hosts | replace('\n', ', ') }}"
+      - "{{ converth }}"
+      - "{{ convertv }}"
+      #- "{{ convertv[0] }}"
+      #- {{ target_vcs | replace('\n', ',') | replace('[', '') | replace(']', '') |  regex_replace("\'", '') }}
+      #- "{{ cleanvcs }}"
+      #- "script_cron {{ target_vcs | trim }}"
+      #- "{{ target_hosts | trim  | replace('\n', ', ') }}"
+
+- name: Create the cron job
+  cron:
+    state: present
+    name: "script_cron {{ target_vcs }}"
+    user: "{{ ansible_user }}" 
+    #user: "{{ lookup('env', 'USER') }}" 
+    minute: "{{ cron_time.split()[0] }}"
+    hour: "{{ cron_time.split()[1] }}"
+    day: "{{ cron_time.split()[2] }}"
+    month: "{{ cron_time.split()[3] }}"
+    job: "{{ cron_job }}"
+  when: createcron | bool
+
+- name: Remove the cron job
+  cron:
+    state: absent
+    name: "script_cron {{ target_vcs[0]}}"
+  when: cleanupcron | bool
+
