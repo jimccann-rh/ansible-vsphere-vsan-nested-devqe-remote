@@ -262,7 +262,7 @@
 #   register: resultvsan
 
 - name: Set up disk group for vSAN
-  script:: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}   # E: line too long (127 > 80 characters)
+  ansible.builtin.script: ./diskgroup.py {{ hostvars[groups['vc'][0]].NESTEDVMIP }} 'administrator@{{ vc_fact_domain }}' {{ vc_fact_password }}   # E: line too long (127 > 80 characters)
   register: resultvsan
 
 
