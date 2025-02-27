@@ -250,7 +250,7 @@
     passwd: "{{ vc_fact_password }}"
     cluster: '{{ vc_fact_cluster1 }}'
 #  ignore_errors: true
-  delegate_to: localhost
+#  delegate_to: localhost
 
 - pause:
     minutes: 1
