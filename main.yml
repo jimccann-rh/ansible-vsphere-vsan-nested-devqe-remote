@@ -109,6 +109,14 @@
         # - never
 
     - block:
+>      - name: Needed packages on system # E: wrong indentation: expected 8 but found 7
+         include_tasks: packlocal.yml
+      tags:
+        - packlocal
+      delegate_to: localhost
+
+
+    - block:
        - name: Include vars of vcenter_host-7.yml
          ansible.builtin.include_vars:
            file: vcenter_host-7.yml
