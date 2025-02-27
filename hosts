@@ -37,4 +37,5 @@ ansible_user=root
 # Refers to the OS hostname, not the OOB controller.
 #host="{{inventory_hostname}}"
 
-
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
