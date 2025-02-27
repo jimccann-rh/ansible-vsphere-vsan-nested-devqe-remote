@@ -120,11 +120,6 @@
       when: '"8" in version'
 
     - block:
-        - name: install local pacakages
-          include_tasks: packlocal.yml
-      delegate_to: localhost
-
-    - block:
         - name: Deploy ova of ESXi
           include_tasks: esxinested.yml
           loop: "{{ groups['esxi'] | list }}"

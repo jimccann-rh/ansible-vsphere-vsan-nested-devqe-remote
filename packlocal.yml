@@ -14,15 +14,16 @@
 
 # ansible-galaxy collection install community.vmware
 
-#- name: Install the needed pacakages
-#  ansible.builtin.package:
-#    name:
-#      - python3-pip
-#      - git
-#      - gcc
-#      # - python3-dnf
-#    state: latest
-#  become: true
+- name: Install the needed pacakages
+  ansible.builtin.package:
+    name:
+      - python3-pip
+      - python3
+      - git
+      - gcc
+      # - python3-dnf
+    state: latest
+  become: true
 
 
 - name: Install needed python packages
