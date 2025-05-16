@@ -1,3 +1,5 @@
-esxiova: 'Nested_ESXi8.0u2c_Appliance_Template_v1.ova'
-vcenterova: 'VMware-vCenter-Server-Appliance-8.0.2.00100-22617221_OVF10.ova'
+esxiova: 'Nested_ESXi8.0u3c_Appliance_Template_v1.ova'
+vcenterova: 'VMware-vCenter-Server-Appliance-8.0.3.00000-24022515_OVF10.ova'
 httpova: "10.185.92.22:8080"
+#esxiova: 'Nested_ESXi8.0u2c_Appliance_Template_v1.ova'
+#vcenterova: 'VMware-vCenter-Server-Appliance-8.0.2.00100-22617221_OVF10.ova'
